@@ -13,7 +13,7 @@ class App extends React.Component {
       timeOut: false,
       isShown: true
     }
-    this.imageRef = React.createRef(null); 
+    this.gameRef = React.createRef(null); 
   }
 
   play = () => {
@@ -21,52 +21,52 @@ class App extends React.Component {
       scoreTotal: 0,
       isShown: false
     })
-    this.peep();
     setTimeout(() => this.setState({
       timeOut: true
     }), 10000)
+    this.a();
   }
 
-  peep = () => {
-    const time = this.randomTime(200, 500);
-    const hole = this.randomHole();
-    hole.classList.add('up');
+  a = () => {
+    const time = this.rt(200, 500);
+    const bush = this.rb();
+    bush.classList.add('up');
     setTimeout(() => {
-      hole.classList.remove('up');
-      if (!this.state.timeOut) this.peep();
+      bush.classList.remove('up');
+      if (!this.state.timeOut) this.a();
     }, time);
-    this.click();
+    this.c();
   }
 
-  randomTime = (min, max) => {
+  rt = (min, max) => {
     return Math.round(Math.random() * (max - min) + min);
   }
 
-  randomHole = () => {
-    const holes = this.imageRef.current.children;
-    const idx = Math.floor(Math.random() * holes.length);
-    const hole = holes[idx];
-    return hole;
+  rb = () => {
+    const bushes = this.gameRef.current.children;
+    const index = Math.floor(Math.random() * bushes.length);
+    const bush = bushes[index];
+    return bush;
   }
 
-  click = () => {
-    const childrens = Array.from(this.imageRef.current.children);
+  c = () => {
+    const childrens = Array.from(this.gameRef.current.children);
     const value = [];
     childrens.forEach(children => {
       value.push(children.lastChild);
     })
-    value.forEach(rabbit => rabbit.addEventListener('click', this.bonk));
+    value.forEach(rabbit => rabbit.addEventListener('click', this.b));
   }
 
-  bonk = (e) => {
-    const holes = this.imageRef.current.children;
-    const hole = this.randomHole(holes);
+  b = (e) => {
+    const bushes = this.gameRef.current.children;
+    const bush = this.rb(bushes);
     if (e.isTrusted) {
       this.setState({
         scoreTotal: this.state.scoreTotal + 1
       })
     }
-    hole.parentNode.classList.remove('up');
+    bush.parentNode.classList.remove('up');
   }
 
   playAgain = () => {
@@ -107,16 +107,16 @@ class App extends React.Component {
               <i className="far fa-question-circle"/>
             </OverlayTrigger>
           </div>
-          <div className="game-panel" ref = {this.imageRef}>
-            <div className="hole hole1">
+          <div className="game-panel" ref = {this.gameRef}>
+            <div className="bush bush1">
               <div className="rabbit">
               </div>
             </div>
-            <div className="hole hole2">
+            <div className="bush bush2">
               <div className="rabbit">
               </div>
             </div>
-            <div className="hole hole3">
+            <div className="bush bush3">
               <div className="rabbit">
               </div>
             </div>
